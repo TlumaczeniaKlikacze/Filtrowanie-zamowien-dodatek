@@ -33,6 +33,15 @@ const interval_application_search = setInterval(() => {
                                     const find = response.data.find(e => e == orders[y].value)
 
                                     if (find && orders[y].checked == false) {
+                                        try {
+                                            const toChange_background =  orders[y].parentElement.parentElement.parentElement.parentElement.children
+                                            for(const loa in toChange_background ){
+                                                toChange_background[loa].style.backgroundColor = '#c9363a'
+                                            } 
+                                        } catch (error) {
+                                        }
+                                        
+                                           
                                         orders[y].click()
                                     }
                                 }
