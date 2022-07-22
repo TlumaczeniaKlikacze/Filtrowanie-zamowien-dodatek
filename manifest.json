@@ -1,0 +1,18 @@
+
+{
+    "manifest_version": 3,
+    "name": "Filtrowanie zamówień!",
+    "description": "Dodatek do filtrowania zamowien.",
+    "version": "0.0.1",
+    "options_page": "popup.html",
+    "action": {
+        "default_title": "Filtrowanie zamówień!",
+        "default_popup": "popup.html"
+    },
+    "permissions": [],
+    "host_permissions": ["https://zooart5.yourtechnicaldomain.com/panel/orders-list.php*","https://zookaralyste.lt/panel/orders-list.php*","https://zooart6.yourtechnicaldomain.com/panel/orders-list.php*","https://zooart.com.pl/panel/orders-list.php*","https://zooland.com.de/panel/orders-list.php*","https://krteckem.cz/panel/orders-list.php*","https://zooart.fr/panel/orders-list.php*","https://gattiliano.it/panel/orders-list.php*","https://eurohrana.ro/panel/orders-list.php*","https://arazoo.sk/panel/orders-list.php*"],
+    "content_scripts": [{
+        "js": ["js.js"],
+        "matches":["https://*/*"]
+    }]
+}
