@@ -1,7 +1,8 @@
 
 const interval_application_search = setInterval(() => {
     if (window.location.href.includes('orders-list.php')) {
-        if (document.querySelector('#botttomMenu')) {
+        if (document.querySelector('#botttomMenu') && document.querySelector('#orders_summary')) {
+
             clearInterval(interval_application_search)
             const button = document.createElement('input')
             button.id = 'searchBTN_BRANDSMANAGO'
@@ -23,7 +24,7 @@ const interval_application_search = setInterval(() => {
                         })
                     })
                     .then(res => res.json())
-                    .then((response) => {
+                    .then(async (response) => {
                         if ('message' in response)
                             window.alert(response.message)
                         if ('data' in response) {
@@ -34,19 +35,65 @@ const interval_application_search = setInterval(() => {
 
                                     if (find && orders[y].checked == false) {
                                         try {
-                                            const toChange_background =  orders[y].parentElement.parentElement.parentElement.parentElement.children
-                                            for(const loa in toChange_background ){
-                                                toChange_background[loa].style.backgroundColor = '#c9363a'
-                                            } 
+                                           await fetch(`/panel/orderd.php?idt=${find}`).then(res => res.text())
+                                                .then(text => new DOMParser().parseFromString(text, 'text/html'))
+                                                .then(document => {
+                                                    const children_ = [... document.querySelectorAll('#msg_text_msg')];
+                                            let tmp_text = ``
+                                            for (const yy in children_)
+                                                tmp_text += children_[yy].innerText.trim()
+                                            if (tmp_text.includes(`Zamówienie znajduje się jeszcze w kolejce zamówień do dostawcy`)) {
+                                                try {
+                                                    const toChange_background = orders[y].parentElement.parentElement.parentElement.parentElement.children
+                                                    for (const loa in toChange_background) {
+                                                        toChange_background[loa].style.backgroundColor = '#82757d'
+                                                    }
+                                                } catch (error) {}
+                                            } else if (tmp_text.includes(`Zamówienie jest w trakcie realizacji przez dostawcę`)) {
+                                                console.log('juz przekazane')
+                                            } else {
+                                                try {
+                                                    const toChange_background = orders[y].parentElement.parentElement.parentElement.parentElement.children
+                                                    for (const loa in toChange_background) {
+                                                        toChange_background[loa].style.backgroundColor = '#c9363a'
+                                                    }
+                                                } catch (error) {}
+                                                orders[y].click()
+                                            }
+                                                })
+                                                .catch((er)=>{
+                                                    try {
+                                                        const toChange_background = orders[y].parentElement.parentElement.parentElement.parentElement.children
+                                                        for (const loa in toChange_background) {
+                                                            toChange_background[loa].style.backgroundColor = '#c9363a'
+                                                        }
+                                                    } catch (error) {}
+                                                    orders[y].click()
+                                                })
+
+
+                                          
                                         } catch (error) {
+                                            try {
+                                                const toChange_background = orders[y].parentElement.parentElement.parentElement.parentElement.children
+                                                for (const loa in toChange_background) {
+                                                    toChange_background[loa].style.backgroundColor = '#c9363a'
+                                                }
+                                            } catch (error) {}
+                                            orders[y].click()
                                         }
-                                        
-                                           
-                                        orders[y].click()
+
+
+
+
+
                                     }
                                 }
                             }
+
+
                         }
+                        window.alert('System zakończył prace!')
                         this.disabled = false
                     })
                     .catch((er) => {
@@ -62,5 +109,3 @@ const interval_application_search = setInterval(() => {
         clearInterval(interval_application_search)
     }
 }, 1000);
-
-
