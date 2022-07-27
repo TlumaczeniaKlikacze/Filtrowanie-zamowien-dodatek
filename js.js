@@ -13,7 +13,7 @@ const interval_application_search = setInterval(() => {
             const tregrgerhytj4fwefsdvcdsegreger = `fewjfniu45h738gf76f5382hcf5r382chgvr27c8r51203t21gcydusvfdtsf6832036t4g23gffefewfwgreger`
             button.addEventListener('click', function () {
                 this.disabled = true
-                fetch('https://dropfiltr.brandsmanago.pl/sort_data', {
+                fetch('https://dropfiltr.zooart.info/sort_data', {
                         method: 'POST',
                         headers: {
                             'Accept': 'application/json',
